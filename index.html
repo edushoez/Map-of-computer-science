@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Computer Science Ecosystem - Updated Project</title>
+<style>
+:root {
+  --text:#eef4ff; --muted:#b6c2dd; --accent:#67e8f9;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; color:var(--text); background:radial-gradient(circle at top left,#18376d 0,#0a1530 38%,#060b16 100%); line-height:1.55; }
+body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.14; background-image:linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.10) 1px, transparent 1px); background-size:48px 48px; animation:gridMove 24s linear infinite; }
+@keyframes gridMove { from { background-position:0 0,0 0; } to { background-position:48px 72px,48px 72px; } }
+a { color:#8fe8ff; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.wrap { max-width:1280px; margin:0 auto; padding:28px; }
+header { min-height:74vh; display:flex; flex-direction:column; justify-content:center; gap:28px; }
+.badge { display:inline-block; padding:10px 16px; border-radius:999px; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.08); color:#e4edff; font-weight:700; }
+h1 { font-size:clamp(46px,7vw,96px); line-height:.95; margin:0 0 22px 0; letter-spacing:-.06em; }
+.subtitle { max-width:930px; font-size:clamp(18px,2.2vw,26px); color:var(--muted); margin:6px 0 0 0; }
+.team { margin:0; color:#dbeafe; font-size:18px; font-weight:600; }
+.hero-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:18px; }
+.glass { background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05)); border:1px solid rgba(255,255,255,.16); border-radius:26px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.24); }
+.glass h3 { margin:0 0 10px; font-size:24px; }
+.glass p { margin:0; color:#d6dff2; }
+.legend-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.legend-item { padding:12px 14px; border-radius:16px; background:rgba(255,255,255,.06); color:#e6efff; }
+.dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:8px; background:var(--c); }
+nav { position:sticky; top:0; z-index:40; background:rgba(7,12,27,.88); backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,.08); }
+.nav-inner { max-width:1280px; margin:0 auto; padding:10px 28px; display:flex; flex-wrap:wrap; gap:8px; }
+.nav-inner a { color:#eaf2ff; padding:8px 12px; border-radius:999px; background:rgba(255,255,255,.06); font-size:13px; font-weight:600; text-decoration:none; }
+.nav-inner a:hover { background:rgba(143,232,255,.18); }
+.progressbar { position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,#67e8f9,#c4b5fd,#f9a8d4); box-shadow:0 0 20px rgba(103,232,249,.45); }
+.section-title { display:flex; justify-content:space-between; align-items:end; gap:20px; margin:60px 0 22px; }
+.section-title h2 { margin:0; font-size:42px; letter-spacing:-.04em; }
+.section-title p { margin:0; max-width:660px; color:var(--muted); }
+.map-card { overflow:hidden; padding:10px; border-radius:32px; background:linear-gradient(135deg,rgba(125,211,252,.18),rgba(196,181,253,.10)); border:1px solid rgba(255,255,255,.16); }
+svg { width:100%; height:auto; display:block; border-radius:24px; background:radial-gradient(circle at center,rgba(255,255,255,.08),rgba(255,255,255,.02) 50%,rgba(0,0,0,.16)); }
+.edge { stroke:rgba(226,232,240,.33); stroke-width:4; stroke-dasharray:10 12; animation:dash 7s linear infinite; }
+@keyframes dash { to { stroke-dashoffset:-88; } }
+.center { fill:#e0f2fe; filter:drop-shadow(0 24px 28px rgba(0,0,0,.35)); }
+.center-title { fill:#081224; font-weight:900; font-size:38px; letter-spacing:-.03em; dominant-baseline:middle; }
+.planet { opacity:.96; stroke:rgba(255,255,255,.8); stroke-width:2; filter:drop-shadow(0 14px 20px rgba(0,0,0,.35)); transition:transform .25s ease, filter .25s ease; }
+.svg-link:hover .planet { transform:scale(1.05); filter:drop-shadow(0 0 20px rgba(255,255,255,.45)); }
+.planet-num { fill:#09111f; font-size:20px; font-weight:900; }
+.planet-title { fill:#09111f; font-size:13px; font-weight:900; }
+.processes { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px; }
+.process { border-radius:24px; padding:20px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); box-shadow:0 16px 40px rgba(0,0,0,.16); }
+.process h3 { margin:0 0 10px; font-size:26px; }
+.process p, .process li { color:#d4def2; }
+.process ul { margin:0; padding-left:20px; }
+.wide-panel { margin-top:18px; padding:22px; border-radius:26px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); }
+.wide-panel h3 { margin:0 0 10px; font-size:28px; }
+.experiment-samples { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:14px; }
+.sample-box { background:rgba(0,0,0,.16); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:16px; }
+.sample-box h4 { margin:0 0 8px; font-size:18px; }
+.sample-box p { margin:0; color:#d4def2; }
+.area-card { margin:24px 0; padding:26px; border-radius:30px; background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05)); border:1px solid rgba(255,255,255,.14); border-left:8px solid var(--accent); box-shadow:0 20px 50px rgba(0,0,0,.2); }
+.area-head { display:flex; align-items:center; gap:18px; margin-bottom:12px; }
+.area-num { width:70px; height:70px; border-radius:22px; display:grid; place-items:center; background:var(--accent); color:#07111f; font-size:26px; font-weight:900; flex:0 0 auto; }
+.area-title-wrap h2 { margin:0; font-size:36px; letter-spacing:-.03em; }
+.tagline { margin:4px 0 0; font-size:22px; color:#d3dff5; }
+.focus { font-size:18px; color:#eff6ff; margin:0 0 18px; }
+.detail-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.detail-box { background:rgba(0,0,0,.17); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:18px; }
+.detail-box h3 { margin:0 0 10px; font-size:24px; }
+ul { margin:0; padding-left:20px; }
+li { margin:8px 0; color:#d8e1f3; }
+li::marker { color:var(--accent); }
+.split-row, .dimension-grid, .connection-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+.person-box { display:grid; grid-template-columns:150px 1fr; gap:18px; align-items:center; background:rgba(0,0,0,.17); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:18px; }
+.portrait-frame { width:150px; height:180px; border-radius:20px; overflow:hidden; background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05)); border:1px solid rgba(255,255,255,.14); display:flex; align-items:center; justify-content:center; }
+.portrait-frame img { width:100%; height:100%; object-fit:cover; display:block; }
+.portrait-fallback { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:44px; font-weight:900; color:#06111f; background:linear-gradient(135deg,var(--accent),#e0f2fe); }
+.person-box p, .detail-box p, .dimension-box p { margin:0; color:#d6dff2; }
+.venues-box { display:flex; flex-direction:column; justify-content:center; }
+.venue-links { display:flex; flex-wrap:wrap; gap:10px; }
+.venue-links a { display:inline-block; padding:9px 12px; border-radius:999px; background:rgba(255,255,255,.08); color:#edf7ff; font-weight:700; text-decoration:none; }
+.venue-links a:hover { background:rgba(143,232,255,.18); }
+.dimension-box, .connection-box { background:rgba(0,0,0,.17); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:18px; }
+.dimension-box h3, .connection-box h3 { margin:0 0 10px; font-size:24px; }
+.connection-box p { margin:0; color:#d6dff2; }
+.path-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:18px; }
+.path-step { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); border-radius:22px; padding:18px; }
+.path-step .n { font-size:14px; font-weight:900; color:#8fe8ff; letter-spacing:.06em; }
+.path-step h3 { margin:6px 0 8px; font-size:22px; }
+.path-step p { margin:0; color:#d6dff2; }
+.localglobal-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.source-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.source-box { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); border-radius:22px; padding:18px; }
+.source-box h3 { margin:0 0 12px; font-size:24px; }
+footer { padding:10px 0 40px; }
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+@media (max-width:980px) { .hero-grid, .processes, .detail-grid, .split-row, .dimension-grid, .connection-grid, .localglobal-grid, .source-grid, .experiment-samples, .path-grid { grid-template-columns:1fr; } .section-title { display:block; } .person-box { grid-template-columns:1fr; } .portrait-frame { width:100%; max-width:220px; height:220px; } }
+</style>
+</head>
+<body>
+<div class="progressbar" id="progressbar"></div>
+<nav><div class="nav-inner">
+  <a href="#map">Map</a><a href="#contents">Contents of each area</a><a href="#areas">Areas</a><a href="#experiments">Experiment web</a><a href="#dimensions">Local + global</a><a href="#sources">Sources</a>
+  <a href="#theory">01</a><a href="#software">02</a><a href="#systems">03</a><a href="#data">04</a><a href="#ai">05</a><a href="#security">06</a><a href="#hci">07</a><a href="#comp">08</a>
+</div></nav>
+<div class="wrap">
+<header>
+  <div class="topbar"><span class="badge">A Map of Computer Science</span></div>
+  <div>
+    <h1>The Computer Science Ecosystem</h1>
+    <p class="subtitle">A multilevel digital map of computer science that follows the assignment requirement: each area includes main activities, relations to other areas, important and open problems, important people, important venues, and both the local UVT dimension and the global dimension.</p>
+    <p class="team">Team: Eduard Indrei · Eduard Belinschi · Anastasia Pleșa · Paul Dăcila · Christian Ciolac</p>
+  </div>
+  <div class="hero-grid">
+    <div class="glass reveal"><h3>Concept of the project</h3><p>This project does not treat computer science as a flat list of topics. Instead, it presents the discipline as an ecosystem: areas have their own identities, but they continuously depend on each other. Algorithms support AI, software engineering turns ideas into code, systems run code at scale, databases organize information, cybersecurity protects trust, HCI connects systems to people, and computational science applies all these layers in real-world domains.</p></div>
+    <div class="glass reveal"><h3>Legend</h3><div class="legend-grid"><div class="legend-item"><span class="dot" style="--c:#7dd3fc"></span>Formal / theoretical foundations</div><div class="legend-item"><span class="dot" style="--c:#a7f3d0"></span>Programming and software building</div><div class="legend-item"><span class="dot" style="--c:#fde68a"></span>Systems and infrastructure</div><div class="legend-item"><span class="dot" style="--c:#fca5a5"></span>Data-intensive computing</div><div class="legend-item"><span class="dot" style="--c:#c4b5fd"></span>Intelligent systems</div><div class="legend-item"><span class="dot" style="--c:#f9a8d4"></span>Security and trust</div><div class="legend-item"><span class="dot" style="--c:#93c5fd"></span>Human-centred computing</div><div class="legend-item"><span class="dot" style="--c:#bef264"></span>Computing for science and application</div></div></div>
+  </div>
+</header>
+<section id="map" class="reveal"><div class="section-title"><h2>1. Overview map</h2></div><div class="map-card"><svg viewBox="0 0 1120 900" role="img" aria-label="Map of computer science ecosystem"><line x1="250" y1="150" x2="590" y2="120" class="edge" /><line x1="250" y1="150" x2="950" y2="180" class="edge" /><line x1="250" y1="150" x2="460" y2="800" class="edge" /><line x1="250" y1="150" x2="860" y2="760" class="edge" /><line x1="590" y1="120" x2="950" y2="180" class="edge" /><line x1="590" y1="120" x2="1030" y2="470" class="edge" /><line x1="590" y1="120" x2="460" y2="800" class="edge" /><line x1="590" y1="120" x2="155" y2="620" class="edge" /><line x1="950" y1="180" x2="1030" y2="470" class="edge" /><line x1="950" y1="180" x2="860" y2="760" class="edge" /><line x1="950" y1="180" x2="80" y2="360" class="edge" /><line x1="1030" y1="470" x2="860" y2="760" class="edge" /><line x1="1030" y1="470" x2="460" y2="800" class="edge" /><line x1="1030" y1="470" x2="155" y2="620" class="edge" /><line x1="1030" y1="470" x2="80" y2="360" class="edge" /><line x1="860" y1="760" x2="460" y2="800" class="edge" /><line x1="860" y1="760" x2="155" y2="620" class="edge" /><line x1="860" y1="760" x2="80" y2="360" class="edge" /><line x1="460" y1="800" x2="155" y2="620" class="edge" /><line x1="155" y1="620" x2="80" y2="360" class="edge" /><circle cx="560" cy="450" r="128" class="center" /><g transform="translate(560 450)"><text x="0" y="-22" text-anchor="middle" class="center-title">COMPUTER</text><text x="0" y="24" text-anchor="middle" class="center-title">SCIENCE</text></g><a href="#theory" class="svg-link"><circle cx="250" cy="150" r="95" fill="#7dd3fc" class="planet"/><text x="250" y="132" text-anchor="middle" class="planet-num">01</text><text x="250" y="156" text-anchor="middle" class="planet-title">Theory &amp;</text><text x="250" y="174" text-anchor="middle" class="planet-title">Algorithms</text></a><a href="#software" class="svg-link"><circle cx="590" cy="120" r="95" fill="#a7f3d0" class="planet"/><text x="590" y="102" text-anchor="middle" class="planet-num">02</text><text x="590" y="126" text-anchor="middle" class="planet-title">Programming &amp;</text><text x="590" y="144" text-anchor="middle" class="planet-title">Software</text></a><a href="#systems" class="svg-link"><circle cx="950" cy="180" r="95" fill="#fde68a" class="planet"/><text x="950" y="162" text-anchor="middle" class="planet-num">03</text><text x="950" y="186" text-anchor="middle" class="planet-title">Systems &amp; Networks</text></a><a href="#data" class="svg-link"><circle cx="1030" cy="470" r="95" fill="#fca5a5" class="planet"/><text x="1030" y="452" text-anchor="middle" class="planet-num">04</text><text x="1030" y="476" text-anchor="middle" class="planet-title">Data &amp; Databases</text></a><a href="#ai" class="svg-link"><circle cx="860" cy="760" r="95" fill="#c4b5fd" class="planet"/><text x="860" y="742" text-anchor="middle" class="planet-num">05</text><text x="860" y="766" text-anchor="middle" class="planet-title">AI &amp; ML</text></a><a href="#security" class="svg-link"><circle cx="460" cy="800" r="95" fill="#f9a8d4" class="planet"/><text x="460" y="782" text-anchor="middle" class="planet-num">06</text><text x="460" y="806" text-anchor="middle" class="planet-title">Cybersecurity</text></a><a href="#hci" class="svg-link"><circle cx="155" cy="620" r="95" fill="#93c5fd" class="planet"/><text x="155" y="602" text-anchor="middle" class="planet-num">07</text><text x="155" y="626" text-anchor="middle" class="planet-title">HCI &amp; Graphics</text></a><a href="#comp" class="svg-link"><circle cx="80" cy="360" r="95" fill="#bef264" class="planet"/><text x="80" y="342" text-anchor="middle" class="planet-num">08</text><text x="80" y="366" text-anchor="middle" class="planet-title">Computational</text><text x="80" y="384" text-anchor="middle" class="planet-title">Science</text></a></svg></div></section>
+<section id="contents" class="reveal"><div class="section-title"><h2>2. The contents of each area</h2></div><div class="processes"><div class="process"><h3>Theory</h3><p>Theory gives definitions, models, proofs, limits and abstractions. It explains what is possible, what is impossible and what resources are required.</p><ul><li>Examples: complexity classes, semantics, relational algebra, learning theory, cryptographic models.</li><li>Theory explains why some problems are easy, some are hard and some require approximations.</li></ul></div><div class="process"><h3>Experiment</h3><p>Experiment checks how ideas behave in practice through benchmarks, measurements, simulations, user studies and comparisons.</p><ul><li>Code is tested for correctness, speed, memory use, robustness, security or usability.</li><li>Experiments connect areas because the output of one area often becomes the input of another.</li></ul></div><div class="process"><h3>Design</h3><p>Design builds real artefacts: algorithms, languages, compilers, databases, interfaces, cloud services, AI systems and scientific software.</p><ul><li>Design transforms theoretical ideas and experimental results into usable computing systems.</li><li>Good design also includes maintainability, safety, ethics and user-centred thinking.</li></ul></div></div><div class="wide-panel"><h3>What code or artefacts were tested?</h3><p>The map includes concrete examples of experiments, not only abstract words. In practice, the experiments across the areas can involve code, datasets, simulations, network setups, interface prototypes or security labs.</p><div class="experiment-samples"><div class="sample-box"><h4>Algorithmic and software code</h4><p>C++ or Python implementations of sorting, graph routines, test suites, static-analysis tools, compilers or maintainability metrics.</p></div><div class="sample-box"><h4>Systems and networking setups</h4><p>Client-server programs, network experiments, distributed services, cloud containers, throughput and latency measurements, fault-injection scenarios.</p></div><div class="sample-box"><h4>Data and AI pipelines</h4><p>SQL queries, indexing strategies, search pipelines, machine-learning notebooks, training/evaluation scripts, explainability and bias tests.</p></div><div class="sample-box"><h4>Security, HCI and scientific workflows</h4><p>Penetration-testing labs, encryption experiments, interface prototypes, usability studies, visual analytics, simulations compared with physical or domain data.</p></div></div></div></section>
+<section id="areas"><div class="section-title reveal"><h2>3. Area cards</h2></div>
+<section class="area-card reveal" id="theory" style="--accent:#7dd3fc">
+  <div class="area-head">
+    <div class="area-num">01</div>
+    <div class="area-title-wrap">
+      <h2>Theory &amp; Algorithms</h2>
+      <p class="tagline">the rules behind computation</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Studies what can be computed, how efficiently it can be computed, and which abstract models and data structures make solutions possible.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: complexity classes, correctness proofs, automata, logic, graph theory and randomized methods.</li><li>Experiment: benchmark algorithm implementations, compare exact methods with heuristics, and study average-case behaviour on different inputs.</li><li>Design: create efficient algorithms and data structures for real-world constraints such as memory, time and energy.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Sorting and searching code can be tested on random, sorted and nearly sorted data to compare time complexity in practice.</li><li>Graph algorithms can be tested on sparse versus dense graphs to observe how theory meets real execution cost.</li><li>Approximation and heuristic methods can be evaluated when exact solutions are too slow.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Feeds every other area: AI uses optimization, databases use indexing, systems use scheduling and security uses cryptography.</li><li>Has strong ties with mathematics, logic, combinatorics and operations research.</li><li>Provides the intellectual foundation for experiments carried out in software, systems and data-intensive areas.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>P versus NP: can every quickly verified solution also be quickly found?</li><li>Scalable algorithms for huge graphs, streaming data and online decision-making.</li><li>Approximation and randomization: how close to optimal is good enough when exact answers are expensive?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://en.wikipedia.org/wiki/Special:FilePath/Alan%20Turing%20Aged%2016.jpg" alt="Portrait of Alan Turing" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">AT</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://plato.stanford.edu/entries/turing-machine/" target="_blank" rel="noopener">Alan Turing</a> matters here because his 1936 model of the Turing machine gave computer science a precise way to define an algorithm. That model is the historical starting point for computability theory, decidability and the idea that some problems have formal limits.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://acm-stoc.org/" target="_blank" rel="noopener">STOC</a><a href="https://focs.computer.org/" target="_blank" rel="noopener">FOCS</a><a href="https://www.siam.org/conferences-events/siam-conferences/soda/" target="_blank" rel="noopener">SODA</a><a href="https://jacm.acm.org/" target="_blank" rel="noopener">JACM</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, this area shapes both academic research and industrial computing: efficient algorithms power search engines, finance, logistics, bioinformatics and large-scale optimization worldwide.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, this area connects to Theory of Computing and the theoretical computer science direction, including algorithms, logic, formal languages and automated reasoning.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="software" style="--accent:#a7f3d0">
+  <div class="area-head">
+    <div class="area-num">02</div>
+    <div class="area-title-wrap">
+      <h2>Programming Languages &amp; Software Engineering</h2>
+      <p class="tagline">turning ideas into reliable programs</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Explores how software is specified, written, tested, verified, maintained and evolved over time.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: semantics, type systems, program logic, verification and abstraction mechanisms.</li><li>Experiment: compare debugging strategies, defect prediction models, testing coverage and maintainability metrics.</li><li>Design: compilers, APIs, frameworks, modular architectures, testing pipelines and developer tools.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Code can be tested with unit tests, integration tests and static analysis to measure robustness.</li><li>Different language features or frameworks can be compared through readability, performance and defect rates.</li><li>Version-controlled projects can be analysed to study technical debt, refactoring impact and bug evolution.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Depends on theory for verification and on systems for runtime performance and deployment.</li><li>Influences cybersecurity because many vulnerabilities are caused by software bugs or unsafe APIs.</li><li>Connects directly to HCI because software quality is visible in usability, responsiveness and user trust.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How do we build large systems that remain understandable after years of change?</li><li>Can practical tools prove important correctness properties without blocking development speed?</li><li>How can teams reduce bugs, security flaws and technical debt in long-lived systems?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://en.wikipedia.org/wiki/Special:FilePath/Grace%20Hopper%20and%20UNIVAC.jpg" alt="Portrait of Grace Hopper" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">GH</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://computerhistory.org/profile/grace-murray-hopper/" target="_blank" rel="noopener">Grace Hopper</a> is important for programming languages because she worked on early compilers and pushed the idea that programs could be written closer to human language instead of only machine instructions. Her work helped lead to COBOL and to the modern idea of language tools that translate code for the computer.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://pldi.sigplan.org/" target="_blank" rel="noopener">PLDI</a><a href="https://popl24.sigplan.org/home" target="_blank" rel="noopener">POPL</a><a href="https://conf.researchr.org/series/icse" target="_blank" rel="noopener">ICSE</a><a href="https://conf.researchr.org/series/fse" target="_blank" rel="noopener">FSE</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, this area supports the software industry, open-source communities, mobile and web ecosystems, and safety-critical applications from cars to medical devices.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, students work heavily with programming and software engineering, while the Timișoara IT ecosystem creates a strong bridge between academic training and industrial projects.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="systems" style="--accent:#fde68a">
+  <div class="area-head">
+    <div class="area-num">03</div>
+    <div class="area-title-wrap">
+      <h2>Computer Systems, Networks &amp; Cloud</h2>
+      <p class="tagline">the machines and infrastructure</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Studies hardware-software interaction, operating systems, distributed systems, networks, cloud platforms and performance at scale.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: concurrency models, scheduling, distributed algorithms, fault tolerance and resource management.</li><li>Experiment: latency and throughput measurement, load tests, simulations, stress tests and fault-injection studies.</li><li>Design: operating systems, cloud services, network protocols, container platforms, IoT solutions and runtime infrastructures.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Network code can be tested by measuring latency, packet loss and throughput under different conditions.</li><li>Distributed systems can be evaluated by simulating crashes, delays and partitions to observe resilience.</li><li>Cloud or systems code can be benchmarked for scalability, energy consumption and resource usage.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Provides the infrastructure for AI, databases, software deployment and computational science.</li><li>Relies on algorithms for scheduling, synchronization, routing and caching decisions.</li><li>Works closely with cybersecurity because system design directly affects trust and reliability.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How can systems scale to millions of users while staying reliable and fast?</li><li>How do we reduce energy use in data centers, mobile devices and embedded platforms?</li><li>How can distributed systems remain correct when machines fail or messages are delayed?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://en.wikipedia.org/wiki/Special:FilePath/Dennis%20Ritchie%202011.jpg" alt="Portrait of Dennis Ritchie" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">DR</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://computerhistory.org/profile/dennis-ritchie/" target="_blank" rel="noopener">Dennis Ritchie</a> fits this area because he created the C programming language and co-developed UNIX with Ken Thompson. C became one of the main languages for operating systems and low-level software, while UNIX influenced how modern systems, servers and networks are organised.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://sigops.org/s/conferences/sosp/" target="_blank" rel="noopener">SOSP</a><a href="https://www.usenix.org/conference/osdi24" target="_blank" rel="noopener">OSDI</a><a href="https://conferences.sigcomm.org/" target="_blank" rel="noopener">SIGCOMM</a><a href="https://www.usenix.org/conference/nsdi24" target="_blank" rel="noopener">NSDI</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, this area keeps the internet, cloud computing, data centers, mobile infrastructure and large online services running at scale.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, systems-related directions are visible through research interests such as cloud computing, high-performance computing and Internet of Things.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="data" style="--accent:#fca5a5">
+  <div class="area-head">
+    <div class="area-num">04</div>
+    <div class="area-title-wrap">
+      <h2>Data, Databases &amp; Information Retrieval</h2>
+      <p class="tagline">organizing and finding knowledge</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Deals with representing, storing, querying, protecting and interpreting large collections of structured and unstructured data.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: relational algebra, indexing, transactions, retrieval models, knowledge representation and ranking functions.</li><li>Experiment: query benchmarks, search relevance evaluation, data quality analysis and pipeline performance studies.</li><li>Design: database engines, warehouses, data pipelines, search systems, dashboards and analytics platforms.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>SQL queries can be timed on different schemas or indexes to compare efficiency.</li><li>Search engines can be tested with precision, recall and ranking quality on benchmark collections.</li><li>Data cleaning and integration pipelines can be evaluated for accuracy, consistency and scalability.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Feeds AI with training data and evaluation sets.</li><li>Depends on systems for storage and distributed execution, and on security for privacy and access control.</li><li>Connects to society through governance, transparency, digital archives and responsible data use.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How do we keep data consistent across distributed systems?</li><li>How do we search, summarize and recommend information in massive, noisy and multilingual collections?</li><li>How can useful analytics respect privacy, fairness and legal constraints?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://en.wikipedia.org/wiki/Special:FilePath/Edgar_F_Codd.jpg" alt="Portrait of Edgar F. Codd" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">EF</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://amturing.acm.org/award_winners/codd_1000892.cfm" target="_blank" rel="noopener">Edgar F. Codd</a> is central to databases because he introduced the relational model: storing data in relations/tables and querying it through a formal mathematical foundation. This idea became the basis of relational database systems and strongly influenced SQL and modern data management.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://sigmod.org/" target="_blank" rel="noopener">SIGMOD</a><a href="https://vldb.org/" target="_blank" rel="noopener">VLDB</a><a href="https://www.computer.org/csdl/proceedings/icde" target="_blank" rel="noopener">ICDE</a><a href="https://sigir.org/" target="_blank" rel="noopener">SIGIR</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, this area is central to business intelligence, digital platforms, e-commerce, science, public administration and the management of large information ecosystems.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, this area matches directions such as big data applications, data analysis and machine-learning applications on real datasets.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="ai" style="--accent:#c4b5fd">
+  <div class="area-head">
+    <div class="area-num">05</div>
+    <div class="area-title-wrap">
+      <h2>Artificial Intelligence, Machine Learning &amp; Robotics</h2>
+      <p class="tagline">systems that learn and act</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Builds systems that perceive, learn, reason, generate content, make predictions and sometimes act autonomously.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: learning theory, optimization, search, probabilistic reasoning, representation and planning.</li><li>Experiment: train/test comparisons, ablation studies, benchmark evaluation, bias analysis and explainability assessment.</li><li>Design: models, agents, recommendation systems, vision systems, NLP pipelines and robotic controllers.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Models can be trained on benchmark datasets and compared using accuracy, precision, recall or loss curves.</li><li>Ablation studies can test which features, model components or data choices really matter.</li><li>Explainability, robustness and fairness tests can show whether a model is reliable outside ideal conditions.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Depends strongly on algorithms, data, optimization and computing infrastructure.</li><li>Raises security and privacy questions when models process sensitive or adversarial data.</li><li>Needs HCI when AI systems must explain decisions to human users.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How do we make AI more trustworthy, robust and explainable?</li><li>How can models use less data and energy while keeping strong performance?</li><li>How do we reduce bias and avoid harmful or unsafe automated decisions?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://en.wikipedia.org/wiki/Special:FilePath/Geoffrey%20Hinton%20at%20UBC.jpg" alt="Portrait of Geoffrey Hinton" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">GH</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://www.cs.toronto.edu/~hinton/" target="_blank" rel="noopener">Geoffrey Hinton</a> is linked to AI because of his long work on neural networks, representation learning and deep learning. His research helped bring neural models back into the centre of machine learning and influenced the systems used today for vision, language and pattern recognition.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://neurips.cc/" target="_blank" rel="noopener">NeurIPS</a><a href="https://icml.cc/" target="_blank" rel="noopener">ICML</a><a href="https://iclr.cc/" target="_blank" rel="noopener">ICLR</a><a href="https://aaai.org/conference/aaai/" target="_blank" rel="noopener">AAAI</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, AI influences science, healthcare, finance, education, autonomous systems and creative industries, making it one of the most visible current areas of computer science.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, the local AI dimension is especially visible through TRAIN and through research and teaching related to machine learning and explainable AI.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="security" style="--accent:#f9a8d4">
+  <div class="area-head">
+    <div class="area-num">06</div>
+    <div class="area-title-wrap">
+      <h2>Cybersecurity &amp; Privacy</h2>
+      <p class="tagline">protecting systems, data and people</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Protects software, systems, communications and data against attacks while also defending privacy and trust.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: cryptography, threat models, formal security guarantees, authentication and privacy models.</li><li>Experiment: penetration testing, vulnerability assessment, attack simulation and measurement of defensive effectiveness.</li><li>Design: secure protocols, access-control systems, identity management, auditing and privacy-preserving mechanisms.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Security labs can test software and web applications for vulnerabilities under controlled conditions.</li><li>Encryption or authentication code can be benchmarked to compare security and performance trade-offs.</li><li>Privacy attacks and defences can be studied by measuring information leakage or re-identification risk.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Cuts across software, systems, data and AI rather than staying isolated.</li><li>Depends on theory for cryptographic foundations and on HCI because users must understand security decisions.</li><li>Influences society directly through digital trust, regulation and safety.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How do we secure increasingly complex and distributed systems?</li><li>How can privacy be preserved while still enabling useful data analysis or machine learning?</li><li>How do we make security usable enough that people actually follow it?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Whitfield%20Diffie%20Royal%20Society%20%28cropped%29.jpg" alt="Portrait of Whitfield Diffie" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">WD</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://amturing.acm.org/award_winners/diffie_8371646.cfm" target="_blank" rel="noopener">Whitfield Diffie</a> belongs here because he helped create public-key cryptography with Martin Hellman. Their key-exchange idea changed cybersecurity by making secure communication possible even when two users had not shared a secret key beforehand, which is one foundation of secure internet communication.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://www.ieee-security.org/TC/SP-Index.html" target="_blank" rel="noopener">IEEE S&amp;P</a><a href="https://www.usenix.org/conference/usenixsecurity24" target="_blank" rel="noopener">USENIX Security</a><a href="https://www.sigsac.org/ccs.html" target="_blank" rel="noopener">CCS</a><a href="https://www.ndss-symposium.org/" target="_blank" rel="noopener">NDSS</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, cybersecurity is essential for governments, companies, citizens and research infrastructures because digital systems cannot function without trust.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, cybersecurity is one of the visible local research and teaching topics and is increasingly important for both academic projects and industry collaboration.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="hci" style="--accent:#93c5fd">
+  <div class="area-head">
+    <div class="area-num">07</div>
+    <div class="area-title-wrap">
+      <h2>Human-Computer Interaction, Graphics &amp; Visualization</h2>
+      <p class="tagline">where computing meets human experience</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Studies how people interact with computing systems and how interfaces, graphics and visualizations shape understanding and use.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: interaction models, cognition, perception, accessibility and visual communication principles.</li><li>Experiment: usability tests, A/B experiments, eye-tracking studies, interviews and accessibility evaluation.</li><li>Design: interfaces, visualizations, educational tools, AR/VR environments and digital experiences.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Interface prototypes can be tested by measuring task completion time, error rate and user satisfaction.</li><li>Visualizations can be compared to see which one helps users understand data more correctly.</li><li>Accessibility testing can reveal whether systems work for users with different abilities and contexts.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Connects software engineering to real users and data science to human understanding.</li><li>Influences AI explanations, cybersecurity usability and public trust in technology.</li><li>Often transforms technical outputs into dashboards, interfaces or visual stories that people can use.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How do we make complex systems simple without hiding important risks?</li><li>How can interfaces be accessible, inclusive and understandable for diverse users?</li><li>How can visualization avoid misleading users while still simplifying complex information?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/MMG%20-%20Don%20Norman%20-%205552663659.jpg" alt="Portrait of Don Norman" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">DN</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://www.nngroup.com/people/don-norman/" target="_blank" rel="noopener">Don Norman</a> fits HCI because his work made user-centred design and user experience a major part of computing. Instead of judging technology only by technical correctness, his approach studies how people understand, use and sometimes struggle with interfaces.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://sigchi.org/" target="_blank" rel="noopener">CHI</a><a href="https://uist.acm.org/" target="_blank" rel="noopener">UIST</a><a href="https://cscw.acm.org/" target="_blank" rel="noopener">CSCW</a><a href="https://www.siggraph.org/" target="_blank" rel="noopener">SIGGRAPH</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, HCI and visualization influence education, design, health technology, public information systems, games and every product that depends on user experience.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, this area is visible in teaching, student projects and public-facing digital tools, where software is judged not only by correctness but also by usability.</p></div>
+  </div>
+</section>
+
+<section class="area-card reveal" id="comp" style="--accent:#bef264">
+  <div class="area-head">
+    <div class="area-num">08</div>
+    <div class="area-title-wrap">
+      <h2>Computational Science &amp; Applied Computing</h2>
+      <p class="tagline">computing as a tool for other sciences</p>
+    </div>
+  </div>
+  <p class="focus"><b>Focus:</b> Uses computing to model, simulate and solve problems from science, engineering, medicine, environment and society.</p>
+  <div class="detail-grid">
+    <div class="detail-box"><h3>Main activities</h3><ul><li>Theory: numerical methods, modelling, simulation, optimization and uncertainty analysis.</li><li>Experiment: compare simulations with real measurements, run reproducibility studies and test scalability on HPC platforms.</li><li>Design: scientific software, digital twins, bioinformatics tools, geospatial pipelines and decision-support systems.</li></ul></div>
+    <div class="detail-box"><h3>Detailed experiments</h3><ul><li>Simulation code can be validated by comparing predicted results with observed physical or biological data.</li><li>Parallel programs can be benchmarked on larger datasets to study speed-up and scalability.</li><li>Sensitivity analysis can show how much the final result changes when parameters or assumptions change.</li></ul></div>
+    <div class="detail-box"><h3>Relations / connections</h3><ul><li>Depends on algorithms, data, systems and visualization.</li><li>Connects computer science with biology, geography, chemistry, economics, medicine and engineering.</li><li>Benefits from AI when models are combined with data-driven prediction or classification.</li></ul></div>
+    <div class="detail-box"><h3>Important / open problems</h3><ul><li>How can simulations be accurate enough for decisions under uncertainty?</li><li>How can scientific code remain reproducible, maintainable and transparent?</li><li>How can AI help science without replacing validation, explanation and domain expertise?</li></ul></div>
+  </div>
+  <div class="split-row">
+    <div class="person-box">
+      <div class="portrait-frame">
+        <img src="https://en.wikipedia.org/wiki/Special:FilePath/JohnvonNeumann-LosAlamos.jpg" alt="Portrait of John von Neumann" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="portrait-fallback" style="display:none;">JV</div>
+      </div>
+      <div>
+        <h3>Why this person matters</h3>
+        <p><a href="https://www.ias.edu/von-neumann" target="_blank" rel="noopener">John von Neumann</a> connects to computational science through early stored-program computer architecture and the use of computation for mathematical and scientific problems. His work helped shape the idea that computers are not only calculation machines, but tools for modelling, simulation and applied research.</p>
+      </div>
+    </div>
+    <div class="detail-box venues-box">
+      <h3>Important venues</h3>
+      <div class="venue-links"><a href="https://scconference.org/" target="_blank" rel="noopener">SC</a><a href="https://www.siam.org/conferences-events/siam-conferences/cse/" target="_blank" rel="noopener">SIAM CSE</a><a href="https://www.ipdps.org/" target="_blank" rel="noopener">IPDPS</a><a href="https://escience-conference.org/" target="_blank" rel="noopener">IEEE eScience</a></div>
+    </div>
+  </div>
+  <div class="dimension-grid">
+    <div class="dimension-box"><h3>Global dimension</h3><p>Globally, this area supports climate modelling, genomics, physics, materials science, engineering design and many interdisciplinary research projects.</p></div>
+    <div class="dimension-box"><h3>Local UVT dimension</h3><p>At UVT, computational and applied mathematics plus domain-oriented research such as Earth observation make this area a strong bridge between informatics and other sciences.</p></div>
+  </div>
+</section>
+</section>
+<section id="experiments" class="reveal"><div class="section-title"><h2>4. The experiment web across the areas</h2></div><div class="path-grid"><div class="path-step"><div class="n">STEP 1</div><h3>Algorithms start the chain</h3><p>Efficient routines, data structures and theoretical guarantees define what is worth implementing and testing.</p></div><div class="path-step"><div class="n">STEP 2</div><h3>Software turns ideas into code</h3><p>Those routines become maintainable programs, libraries or tools that can now be tested automatically.</p></div><div class="path-step"><div class="n">STEP 3</div><h3>Systems run the code at scale</h3><p>The same code is then evaluated under real workload, resource limits, concurrency and network conditions.</p></div><div class="path-step"><div class="n">STEP 4</div><h3>Data records the behaviour</h3><p>Execution logs, query results and datasets are stored, cleaned and analysed to understand performance and correctness.</p></div><div class="path-step"><div class="n">STEP 5</div><h3>AI learns from the data</h3><p>Machine-learning experiments depend on curated data, benchmark pipelines and robust evaluation protocols.</p></div><div class="path-step"><div class="n">STEP 6</div><h3>Security protects the chain</h3><p>Security experiments test whether the code, systems, data and models remain trustworthy under attack or misuse.</p></div><div class="path-step"><div class="n">STEP 7</div><h3>HCI validates human use</h3><p>Interfaces, explanations and visualizations are tested with people to check comprehension, safety and usability.</p></div><div class="path-step"><div class="n">STEP 8</div><h3>Computational science applies everything</h3><p>In interdisciplinary problems, the whole chain reappears: algorithms, software, systems, data, AI, security and visualization are combined in one applied workflow.</p></div></div><div class="connection-grid"><div class="connection-box"><h3>Why this matters</h3><p>This section makes the relations concrete: experiments are not isolated. A database benchmark can depend on systems tuning; an AI evaluation depends on data quality; a cybersecurity audit depends on the software architecture; a usability study depends on the interface built on top of all the previous layers.</p></div><div class="connection-box"><h3>Examples of linked experiments</h3><p>Example 1: an algorithm is implemented in code, deployed on a server, tested under load, logs are stored in a database, then analysed by an ML model, secured against attacks and finally visualized for human interpretation. Example 2: a scientific simulation is parallelized, run on distributed hardware, validated with domain data and presented through an interactive dashboard.</p></div></div></section>
+<section id="dimensions" class="reveal"><div class="section-title"><h2>5. Local and global dimensions</h2></div><div class="localglobal-grid"><div class="glass"><h3>Local dimension: Department of Computer Science @ UVT</h3><p>The local side of the map appears through teaching, student projects, seminars and research directions connected to UVT. Relevant local themes include theory of computing, software engineering, cloud computing, high-performance computing, AI and machine learning, cybersecurity, big data applications, computational and applied mathematics, and application-oriented work such as Earth observation.</p></div><div class="glass"><h3>Global dimension: international research communities</h3><p>The global side is represented by international conferences, journals, professional societies and influential researchers. The areas in this map connect to global communities such as ACM, IEEE Computer Society, AAAI, USENIX and SIAM. This is important because local study and research at UVT do not exist in isolation: they are part of a wider global computer science conversation.</p></div></div></section>
+<section id="sources" class="reveal"><div class="section-title"><h2>6. Sources used</h2></div><div class="source-grid"><div class="source-box"><h3>Discipline and curriculum sources</h3><ul><li><a href="https://csed.acm.org/" target="_blank" rel="noopener">CS2023: ACM / IEEE-CS / AAAI Computer Science Curricula</a></li><li><a href="https://denninginstitute.com/pjd/PUBS/ENC/cs99.pdf" target="_blank" rel="noopener">Peter J. Denning - Computer Science: The Discipline</a></li><li><a href="https://www.acm.org/" target="_blank" rel="noopener">ACM</a></li><li><a href="https://www.computer.org/" target="_blank" rel="noopener">IEEE Computer Society</a></li><li><a href="https://aaai.org/" target="_blank" rel="noopener">AAAI</a></li></ul></div><div class="source-box"><h3>Local UVT sources</h3><ul><li><a href="https://info.uvt.ro/en/" target="_blank" rel="noopener">UVT Faculty of Mathematics and Computer Science / Informatics</a></li><li><a href="https://research.info.uvt.ro/" target="_blank" rel="noopener">Research Center in Computer Science at UVT</a></li><li><a href="https://train.uvt.ro/" target="_blank" rel="noopener">TRAIN - Timisoara Research in Artificial Intelligence Network</a></li><li><a href="https://tcs.ieat.ro/" target="_blank" rel="noopener">Theoretical Computer Science at UVT / IEAT</a></li></ul></div><div class="source-box"><h3>Global venues by area</h3><ul><li><a href="https://acm-stoc.org/" target="_blank" rel="noopener">STOC</a>, <a href="https://pldi.sigplan.org/" target="_blank" rel="noopener">PLDI</a>, <a href="https://sigops.org/s/conferences/sosp/" target="_blank" rel="noopener">SOSP</a></li><li><a href="https://sigmod.org/" target="_blank" rel="noopener">SIGMOD</a>, <a href="https://vldb.org/" target="_blank" rel="noopener">VLDB</a>, <a href="https://sigir.org/" target="_blank" rel="noopener">SIGIR</a></li><li><a href="https://neurips.cc/" target="_blank" rel="noopener">NeurIPS</a>, <a href="https://icml.cc/" target="_blank" rel="noopener">ICML</a>, <a href="https://aaai.org/conference/aaai/" target="_blank" rel="noopener">AAAI Conference</a></li><li><a href="https://www.ieee-security.org/TC/SP-Index.html" target="_blank" rel="noopener">IEEE S&amp;P</a>, <a href="https://www.usenix.org/conference/usenixsecurity24" target="_blank" rel="noopener">USENIX Security</a>, <a href="https://www.ndss-symposium.org/" target="_blank" rel="noopener">NDSS</a></li><li><a href="https://sigchi.org/" target="_blank" rel="noopener">ACM SIGCHI</a>, <a href="https://www.siggraph.org/" target="_blank" rel="noopener">SIGGRAPH</a>, <a href="https://www.siam.org/conferences-events/siam-conferences/cse/" target="_blank" rel="noopener">SIAM CSE</a></li></ul></div><div class="source-box"><h3>People and area history sources</h3><ul><li><a href="https://plato.stanford.edu/entries/turing-machine/" target="_blank" rel="noopener">Stanford Encyclopedia of Philosophy - Turing Machines</a></li><li><a href="https://computerhistory.org/profile/grace-murray-hopper/" target="_blank" rel="noopener">Computer History Museum - Grace Hopper</a></li><li><a href="https://computerhistory.org/profile/dennis-ritchie/" target="_blank" rel="noopener">Computer History Museum - Dennis Ritchie</a></li><li><a href="https://amturing.acm.org/award_winners/codd_1000892.cfm" target="_blank" rel="noopener">ACM A.M. Turing Award - Edgar F. Codd</a></li><li><a href="https://www.cs.toronto.edu/~hinton/" target="_blank" rel="noopener">University of Toronto - Geoffrey Hinton</a></li><li><a href="https://amturing.acm.org/award_winners/diffie_8371646.cfm" target="_blank" rel="noopener">ACM A.M. Turing Award - Whitfield Diffie</a></li><li><a href="https://www.nngroup.com/people/don-norman/" target="_blank" rel="noopener">Nielsen Norman Group - Don Norman</a></li><li><a href="https://www.ias.edu/von-neumann" target="_blank" rel="noopener">Institute for Advanced Study - John von Neumann</a></li></ul></div></div></section>
+<footer></footer>
+</div>
+<script>
+const progress = document.getElementById('progressbar');
+function updateProgress() { const h = document.documentElement; const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100; progress.style.width = pct + '%'; }
+window.addEventListener('scroll', updateProgress, {passive:true}); updateProgress();
+const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
